@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Reactive.Threading.Tasks;
 using Octokit.Reactive.Clients;
+using Octokit.Reactive.Internal;
 
 namespace Octokit.Reactive
 {
     public class ObservableIssuesClient : IObservableIssuesClient
     {
         readonly IIssuesClient _client;
+        readonly IConnection _connection;
 
         public IObservableAssigneesClient Assignee { get; private set; }
         public IObservableMilestonesClient Milestone { get; private set; }
@@ -17,6 +19,7 @@ namespace Octokit.Reactive
             Ensure.ArgumentNotNull(client, "client");
 
             _client = client.Issue;
+            _connection = client.Connection;
             Assignee = new ObservableAssigneesClient(client);
             Milestone = new ObservableMilestonesClient(client);
         }
@@ -47,7 +50,7 @@ namespace Octokit.Reactive
         /// http://developer.github.com/v3/issues/#list-issues
         /// </remarks>
         /// <returns></returns>
-        public IObservable<IReadOnlyList<Issue>> GetAllForCurrent()
+        public IObservable<Issue> GetAllForCurrent()
         {
             return GetAllForCurrent(new IssueRequest());
         }
@@ -61,11 +64,11 @@ namespace Octokit.Reactive
         /// </remarks>
         /// <param name="request">Used to filter and sort the list of issues returned</param>
         /// <returns></returns>
-        public IObservable<IReadOnlyList<Issue>> GetAllForCurrent(IssueRequest request)
+        public IObservable<Issue> GetAllForCurrent(IssueRequest request)
         {
             Ensure.ArgumentNotNull(request, "request");
 
-            return _client.GetAllForCurrent(request).ToObservable();
+            return _connection.GetAndFlattenAllPages<Issue>(ApiUrls.Issues(), request.ToParametersDictionary());
         }
 
         /// <summary>
@@ -77,7 +80,7 @@ namespace Octokit.Reactive
         /// http://developer.github.com/v3/issues/#list-issues
         /// </remarks>
         /// <returns></returns>
-        public IObservable<IReadOnlyList<Issue>> GetAllForOwnedAndMemberRepositories()
+        public IObservable<Issue> GetAllForOwnedAndMemberRepositories()
         {
             return GetAllForOwnedAndMemberRepositories(new IssueRequest());
         }
@@ -90,11 +93,11 @@ namespace Octokit.Reactive
         /// </remarks>
         /// <param name="request">Used to filter and sort the list of issues returned</param>
         /// <returns></returns>
-        public IObservable<IReadOnlyList<Issue>> GetAllForOwnedAndMemberRepositories(IssueRequest request)
+        public IObservable<Issue> GetAllForOwnedAndMemberRepositories(IssueRequest request)
         {
             Ensure.ArgumentNotNull(request, "request");
 
-            return _client.GetAllForOwnedAndMemberRepositories(request).ToObservable();
+            return _connection.GetAndFlattenAllPages<Issue>(ApiUrls.Issues(), request.ToParametersDictionary());
         }
 
         /// <summary>
@@ -105,7 +108,7 @@ namespace Octokit.Reactive
         /// </remarks>
         /// <param name="organization">The name of the organization</param>
         /// <returns></returns>
-        public IObservable<IReadOnlyList<Issue>> GetAllForOrganization(string organization)
+        public IObservable<Issue> GetAllForOrganization(string organization)
         {
             return GetAllForOrganization(organization, new IssueRequest());
         }
@@ -119,12 +122,12 @@ namespace Octokit.Reactive
         /// <param name="organization">The name of the organization</param>
         /// <param name="request">Used to filter and sort the list of issues returned</param>
         /// <returns></returns>
-        public IObservable<IReadOnlyList<Issue>> GetAllForOrganization(string organization, IssueRequest request)
+        public IObservable<Issue> GetAllForOrganization(string organization, IssueRequest request)
         {
             Ensure.ArgumentNotNullOrEmptyString(organization, "organization");
             Ensure.ArgumentNotNull(request, "request");
 
-            return _client.GetAllForOrganization(organization, request).ToObservable();
+            return _connection.GetAndFlattenAllPages<Issue>(ApiUrls.Issues(organization), request.ToParametersDictionary());
         }
 
         /// <summary>
@@ -136,7 +139,7 @@ namespace Octokit.Reactive
         /// <param name="owner">The owner of the repository</param>
         /// <param name="name">The name of the repository</param>
         /// <returns></returns>
-        public IObservable<IReadOnlyList<Issue>> GetForRepository(string owner, string name)
+        public IObservable<Issue> GetForRepository(string owner, string name)
         {
             return GetForRepository(owner, name, new RepositoryIssueRequest());
         }
@@ -151,13 +154,13 @@ namespace Octokit.Reactive
         /// <param name="name">The name of the repository</param>
         /// <param name="request">Used to filter and sort the list of issues returned</param>
         /// <returns></returns>
-        public IObservable<IReadOnlyList<Issue>> GetForRepository(string owner, string name, RepositoryIssueRequest request)
+        public IObservable<Issue> GetForRepository(string owner, string name, RepositoryIssueRequest request)
         {
             Ensure.ArgumentNotNullOrEmptyString(owner, "owner");
             Ensure.ArgumentNotNullOrEmptyString(name, "name");
             Ensure.ArgumentNotNull(request, "request");
 
-            return _client.GetForRepository(owner, name, request).ToObservable();
+            return _connection.GetAndFlattenAllPages<Issue>(ApiUrls.Issues(owner, name), request.ToParametersDictionary());
         }
 
         /// <summary>

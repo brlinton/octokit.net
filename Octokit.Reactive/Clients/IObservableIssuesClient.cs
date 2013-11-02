@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 
 namespace Octokit.Reactive
 {
@@ -37,7 +35,7 @@ namespace Octokit.Reactive
         /// http://developer.github.com/v3/issues/#list-issues
         /// </remarks>
         /// <returns></returns>
-        IObservable<IReadOnlyList<Issue>> GetAllForCurrent();
+        IObservable<Issue> GetAllForCurrent();
 
         /// <summary>
         /// Gets all issues across all the authenticated user’s visible repositories including owned repositories, 
@@ -48,7 +46,7 @@ namespace Octokit.Reactive
         /// </remarks>
         /// <param name="request">Used to filter and sort the list of issues returned</param>
         /// <returns></returns>
-        IObservable<IReadOnlyList<Issue>> GetAllForCurrent(IssueRequest request);
+        IObservable<Issue> GetAllForCurrent(IssueRequest request);
 
         /// <summary>
         /// Gets all open issues assigned to the authenticated user across owned and member repositories for the
@@ -59,7 +57,7 @@ namespace Octokit.Reactive
         /// http://developer.github.com/v3/issues/#list-issues
         /// </remarks>
         /// <returns></returns>
-        IObservable<IReadOnlyList<Issue>> GetAllForOwnedAndMemberRepositories();
+        IObservable<Issue> GetAllForOwnedAndMemberRepositories();
 
         /// <summary>
         /// Gets all issues across owned and member repositories for the authenticated user.
@@ -69,7 +67,7 @@ namespace Octokit.Reactive
         /// </remarks>
         /// <param name="request">Used to filter and sort the list of issues returned</param>
         /// <returns></returns>
-        IObservable<IReadOnlyList<Issue>> GetAllForOwnedAndMemberRepositories(IssueRequest request);
+        IObservable<Issue> GetAllForOwnedAndMemberRepositories(IssueRequest request);
 
         /// <summary>
         /// Gets all open issues assigned to the authenticated user for a given organization for the authenticated user.
@@ -79,7 +77,7 @@ namespace Octokit.Reactive
         /// </remarks>
         /// <param name="organization">The name of the organization</param>
         /// <returns></returns>
-        IObservable<IReadOnlyList<Issue>> GetAllForOrganization(string organization);
+        IObservable<Issue> GetAllForOrganization(string organization);
 
         /// <summary>
         /// Gets all issues for a given organization for the authenticated user.
@@ -90,7 +88,7 @@ namespace Octokit.Reactive
         /// <param name="organization">The name of the organization</param>
         /// <param name="request">Used to filter and sort the list of issues returned</param>
         /// <returns></returns>
-        IObservable<IReadOnlyList<Issue>> GetAllForOrganization(string organization, IssueRequest request);
+        IObservable<Issue> GetAllForOrganization(string organization, IssueRequest request);
 
         /// <summary>
         /// Gets all open issues assigned to the authenticated user for the repository.
@@ -101,7 +99,7 @@ namespace Octokit.Reactive
         /// <param name="owner">The owner of the repository</param>
         /// <param name="name">The name of the repository</param>
         /// <returns></returns>
-        IObservable<IReadOnlyList<Issue>> GetForRepository(string owner, string name);
+        IObservable<Issue> GetForRepository(string owner, string name);
 
         /// <summary>
         /// Gets issues for a repository.
@@ -113,7 +111,7 @@ namespace Octokit.Reactive
         /// <param name="name">The name of the repository</param>
         /// <param name="request">Used to filter and sort the list of issues returned</param>
         /// <returns></returns>
-        IObservable<IReadOnlyList<Issue>> GetForRepository(string owner, string name, RepositoryIssueRequest request);
+        IObservable<Issue> GetForRepository(string owner, string name, RepositoryIssueRequest request);
 
         /// <summary>
         /// Creates an issue for the specified repository. Any user with pull access to a repository can create an
