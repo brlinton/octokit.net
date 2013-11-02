@@ -1,12 +1,11 @@
-﻿using System;
+﻿using NSubstitute;
+using Octokit.Internal;
+using Octokit.Reactive;
+using Octokit.Tests.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using NSubstitute;
-using Octokit;
-using Octokit.Internal;
-using Octokit.Reactive.Clients;
-using Octokit.Tests.Helpers;
 using Xunit;
 
 namespace Octokit.Tests.Reactive
